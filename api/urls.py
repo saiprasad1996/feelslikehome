@@ -6,7 +6,7 @@ urlpatterns = [
     
     url(r'^$',views.index),
     url(r'^store/withsrcdest$',views.storesWithSrcandDest),
-    url(r'^stores$',views.allStores)
+    url(r'^stores$',views.allStores),
     url(r'^stores/(?P<country>[A-Za-z0-9]+)$',views.storesInaCountry),
     url(r'^user$',views.user),
 ]

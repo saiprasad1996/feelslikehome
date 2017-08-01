@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.utils.datastructures import MultiValueDictKeyError
 
 # Create your views here.
 #  url(r'^$',views.index),
@@ -9,7 +10,7 @@ from django.http import HttpResponse
 #     url(r'^user$',views.user),
 
 def index(request):
-    return render('api/index.html')
+    return render(request,'api/index.html')
 
 def storesWithSrcandDest(request):
     return HttpResponse("Stores with source and destination api end point")
@@ -23,7 +24,7 @@ def storesInaCountry(request):
 def user(request):
     try:
         if request.method == "GET":
-            user_id = GET["user"]
+            user_id = request.GET["userid"]
             return HttpResponse("User details for the user id : "+user_id)
         elif request.method == "POST":
             return HttpResponse("Update user profile")
