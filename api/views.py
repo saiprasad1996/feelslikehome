@@ -11,3 +11,23 @@ from django.http import HttpResponse
 def index(request):
     return render('api/index.html')
 
+def storesWithSrcandDest(request):
+    return HttpResponse("Stores with source and destination api end point")
+
+def allStores(request):
+    return HttpResponse("Shows all sotres available in the database api end point")
+
+def storesInaCountry(request):
+    return HttpResponse("List of stores in the country")
+
+def user(request):
+    try:
+        if request.method == "GET":
+            user_id = GET["user"]
+            return HttpResponse("User details for the user id : "+user_id)
+        elif request.method == "POST":
+            return HttpResponse("Update user profile")
+        elif request.method == "PUT":
+            return HttpResponse("Register a user")
+    except MultiValueDictKeyError:
+        return HttpResponse("You probably missed out a required parameter")
