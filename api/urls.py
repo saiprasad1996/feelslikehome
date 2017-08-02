@@ -5,10 +5,16 @@ from . import views
 urlpatterns = [
     
     url(r'^$',views.index),
-    url(r'^store/withsrcdest$',views.storesWithSrcandDest),
-    url(r'^stores$',views.allStores),
-    url(r'^stores/(?P<country>[A-Za-z0-9]+)$',views.storesInaCountry),
-    url(r'^user$',views.user),
+    url(r'^api/docs',views.docs),
+    url(r'^api/stores/(?P<srccountry>[A-Za-z0-9]+)/(?P<destcountry>[A-Za-z0-9]+)/(?P<storename>[A-Za-z0-9]+)$',views.storesWithSrcandDest),
+    url(r'^api/stores/category/(?P<category>[A-Za-z0-9]+)$',views.allStoresByCategory),
+    url(r'^api/stores/country/(?P<country>[A-Za-z0-9]+)$',views.allStoresByCountry),
+    url(r'^api/stores$',views.allStores),
+    url(r'^api/user/(?P<id>[A-Za-z0-9]+)$',views.user),
+    url(r'^api/users',views.allUsers),
+    url(r'^api/user',views.userHandle),
+    url(r'^api/store/(?P<id>[A-Za-z0-9]+)',views.storeDetails),
+    url(r'api/store',views.storeHandle),
 ]
 
 '''

@@ -1,14 +1,100 @@
-<!DOCTYPE html>
+{% load staticfiles %}
+<!DOCTYPE HTML>
 <html lang="en">
-    <head>
-        <title>Feels Like home</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    </head>
-    <body>
-        <div class="container">
-            <h4>Feels Like Home App for Android and iOS launching soon!</h4>
-            <h6>Stay tuned with the site to know more</h6>
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Feels Like Home</title>
+  <meta name="description" content="Jarrad Bowe">
+  <meta name="author" content="Sai Prasad">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+  <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <div class="section hero">
+    <div class="container">
+      <div class="row">
+        <div class="one-half column">
+          <h4 class="hero-heading">Feels Like Home. A Companion App for travels and tourists.<br/>Coming soon for </h4>
+          <a class="button button-primary" href="#">Android</a>
+          <a class="button" href="#">iOS</a>
+
         </div>
-    </body>
+        <div class="one-half column phones">
+          <img class="phone" src="{% static 'images/iphone.png' %}">
+          <img class="phone" src="{% static 'images/iphone.png' %}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="section values">-->
+    <!--<div class="container">-->
+      <!--<div class="row">-->
+        <!--<div class="one-third column value">-->
+          <!--<h2 class="value-multiplier">67%</h2>-->
+          <!--<h5 class="value-heading">Purchase Increase</h5>-->
+          <!--<p class="value-description">Percentage of users more likely to purchase on mobile friendly site.</p>-->
+        <!--</div>-->
+        <!--<div class="one-third column value">-->
+          <!--<h2 class="value-multiplier">90%</h2>-->
+          <!--<h5 class="value-heading">Multi-device Users</h5>-->
+          <!--<p class="value-description">Most of the world accesses the internet on multiple devices.</p>-->
+        <!--</div>-->
+        <!--<div class="one-third column value">-->
+          <!--<h2 class="value-multiplier">66%</h2>-->
+          <!--<h5 class="value-heading">Sad Users</h5>-->
+          <!--<p class="value-description">Percentage of users that are frustrated with page load times.</p>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div class="section values">
+    <div class="container">
+      <h3 class="section-heading">Need help getting started?</h3>
+      <p class="section-description">A companion app for you while travelling.... ? After a store just like home or near enough! Count on us we'll help to make you feel like home is around the block?</p>
+      <a class="button" style="color:#fff;" href="#">Coming soon stay tuned!</a>
+    </div>
+  </div>
+
+  <footer class="section">
+    <div class="container">
+      <p class="section-description">Copyright &copy; 2017, FeelsLikeHome.<br/>Concept by Jarrad Bowe <br/>Designed by Sai Prasad.</p>
+    </div>
+  </footer>
+
+
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>

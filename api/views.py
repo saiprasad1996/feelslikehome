@@ -2,25 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 
-# Create your views here.
-#  url(r'^$',views.index),
-#     url(r'^store/withsrcdest$',views.storesWithSrcandDest),
-#     url(r'^stores$',views.allStores)
-#     url(r'^stores/(?P<country>[A-Za-z0-9]+)$',views.storesInaCountry),
-#     url(r'^user$',views.user),
 
 def index(request):
     return render(request,'api/index.html')
 
-def storesWithSrcandDest(request):
-    return HttpResponse("Stores with source and destination api end point")
+def docs(request):
+    return HttpResponse("Docs page")
+# url(r'^stores/(?P<srccountry>[A-Za-z0-9]+)/(?P<destcountry>[A-Za-z0-9]+)/(?P<storename>[A-Za-z0-9]+)$',
+#     views.storesWithSrcandDest),
 
+def storesWithSrcandDest(request):
+    pass
+
+# url(r'^stores/category/(?P<category>[A-Za-z0-9]+)$', views.allStoresByCategory),
+def allStoresByCategory(request):
+    pass
+
+# url(r'^stores/country/(?P<country>[A-Za-z0-9]+)$', views.allStoresByCountry),
+def allStoresByCountry(request):
+    pass
+
+# url(r'^stores$', views.allStores),
 def allStores(request):
     return HttpResponse("Shows all sotres available in the database api end point")
 
-def storesInaCountry(request):
-    return HttpResponse("List of stores in the country")
-
+# url(r'^user/(?P<id>[A-Za-z0-9]+)$', views.user),
 def user(request):
     try:
         if request.method == "GET":
@@ -32,3 +38,22 @@ def user(request):
             return HttpResponse("Register a user")
     except MultiValueDictKeyError:
         return HttpResponse("You probably missed out a required parameter")
+
+# url(r'^users', views.allUsers),
+def allUsers(request):
+    pass
+
+# url(r'^user', views.userHandle),
+def userHandle(request):
+    pass
+
+# url(r'^store/(?P<id>[A-Za-z0-9]+)', views.storeDetails),
+def storeDetails(request):
+    pass
+
+# url(r'store', views.storeHandle),
+def storeHandle(request):
+    pass
+
+
+
