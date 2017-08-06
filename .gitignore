@@ -102,3 +102,10 @@ ENV/
 
 .vscode/
 .idea/
+api/storeimages/*.png
+api/storeimages/*.jpg
+api/storeimages/*.jpeg
+api/storeimages/*.ico
+db.sqlite3
+
+

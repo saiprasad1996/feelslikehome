@@ -20,7 +20,7 @@
 </div>
 <div class="page-body">
     <div class="container">
-        <table>
+        <table class="u-full-width">
             <!--fields = ('name', 'description', 'image', 'address', 'country', 'latitude', 'longitude')
         -->
             <thead>
@@ -36,7 +36,18 @@
             </tr>
             </thead>
             <tbody>
-            {{form.as_table}}
+            {% for s in stores %}
+            <tr>
+                <td>{{s.name}}</td>
+                <td>{{s.description}}</td>
+                <td><img src="{{ s.image.url }}" height="80" width="80"/></td>
+                <td>{{s.address}}</td>
+                <td>{{s.country}}</td>
+                <td>{{s.latitude}}</td>
+                <td>{{s.longitude}}</td>
+                <td>{{s.categories}}</td>
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

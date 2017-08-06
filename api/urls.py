@@ -18,11 +18,11 @@ urlpatterns = [
     url(r'^api/store$',views.storeHandle),
     #Developers urls
     url(r'^dev/initcountries$',choices.initCountries),
-    url(r'^dev/countrycount',choices.getCount),
+    url(r'^dev/countrycount$',choices.getCount),
     #community urls
-    url(r'^com/registerstore',view=views.registerStore,name="registerstore"),
-    url(r'^com/stores',view=views.showStores,name='stores'),
-    url(r'^com/error',view=views.error,name='error')
+    url(r'^com/registerstore$',view=views.registerStore,name="registerstore"),
+    url(r'^api/regstores$',view=views.showStores,name='stores'),
+    url(r'^com/error$',view=views.error,name='error')
 
 ]
 

@@ -13,5 +13,5 @@ class StoreForm(forms.ModelForm):
             'longitude': TextInput(attrs={'class': 'u-full-width', 'placeholder': 'Longitude'}),
             'address': Textarea(attrs={'class': 'u-full-width', 'placeholder': 'Address'}),
             'description': Textarea(attrs={'class': 'u-full-width', 'placeholder': 'Description'}),
-            'categories': Textarea(attrs={'class':'u-full-width','placeholder':'Categories comma separated value','disabled':'true'})
+            'categories': Textarea(attrs={'class':'u-full-width','placeholder':'Categories comma separated value'})
         }
