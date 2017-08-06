@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <title>Stores</title>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <h3>Registered Stores</h3>
+    </div>
+</div>
+<div class="page-body">
+    <div class="container">
+        <table class="u-full-width">
+            <!--fields = ('name', 'description', 'image', 'address', 'country', 'latitude', 'longitude')
+        -->
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Image</td>
+                <td>Address</td>
+                <td>Country</td>
+                <td>Latitude</td>
+                <td>Longitude</td>
+                <td>Categories</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in stores %}
+            <tr>
+                <td>{{s.name}}</td>
+                <td>{{s.description}}</td>
+                <td><img src="{{ s.image.url }}" height="80" width="80"/></td>
+                <td>{{s.address}}</td>
+                <td>{{s.country}}</td>
+                <td>{{s.latitude}}</td>
+                <td>{{s.longitude}}</td>
+                <td>{{s.categories}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <title>Register a store</title>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <h3>Register a Store</h3>
+    </div>
+</div>
+<div class="page-body">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row">
+                <div class="six columns">
+                    {{form.name.label_tag}}
+                    {{form.name}}
+                </div>
+
+                <div class="six columns">
+                    {{form.country.label_tag}}
+                    {{form.country}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {{form.description.label_tag}}
+                    {{form.description}}
+                </div>
+
+                <div class="six columns">
+                    {{form.address.label_tag}}
+                    {{form.address}}
+                </div>
+            </div>
+            {{form.image.label_tag}}
+            {{form.image}}
+            <div class="row">
+                {{form.categories.label_tag}}
+                {{form.categories}}
+            </div>
+            <div class="row">
+                <br/>
+                <h5 class="kaushan-header">Location</h5>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {{form.latitude.label_tag}}
+                    {{form.latitude}}
+                </div>
+                <div class="six columns">
+                    {{form.longitude.label_tag}}
+                    {{form.longitude}}
+                </div>
+            </div>
+            <br/>
+            <input type="submit" value="Submit" class="button button-primary"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
