@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <title>Error</title>
+    <style type="text/css">
+        .container-custom{
+            color:red;
+            display:flex;
+            background-color:#FFFFCC;
+
+        }
+        .body{
+            flex-wrap:wrap;
+            flex-direction:row;
+            align-items:center;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container-custom">
+    <div class="container">
+        <h2 style="font-family:'Raleway';">{{error}}</h2>
+    </div>
+</div>
+</body>
+</html>

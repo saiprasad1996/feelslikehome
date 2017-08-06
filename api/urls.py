@@ -1,5 +1,6 @@
 
 from django.conf.urls import url
+from . import choices
 from . import views
 
 urlpatterns = [
@@ -11,10 +12,18 @@ urlpatterns = [
     url(r'^api/stores/country/(?P<country>[A-Za-z0-9]+)$',views.allStoresByCountry),
     url(r'^api/stores$',views.allStores),
     url(r'^api/user/(?P<id>[A-Za-z0-9]+)$',views.user),
-    url(r'^api/users',views.allUsers),
-    url(r'^api/user',views.userHandle),
-    url(r'^api/store/(?P<id>[A-Za-z0-9]+)',views.storeDetails),
-    url(r'api/store',views.storeHandle),
+    url(r'^api/users$',views.allUsers),
+    url(r'^api/user$',views.userHandle),
+    url(r'^api/store/(?P<id>[A-Za-z0-9]+)$',views.storeDetails),
+    url(r'^api/store$',views.storeHandle),
+    #Developers urls
+    url(r'^dev/initcountries$',choices.initCountries),
+    url(r'^dev/countrycount',choices.getCount),
+    #community urls
+    url(r'^com/registerstore',view=views.registerStore,name="registerstore"),
+    url(r'^com/stores',view=views.showStores,name='stores'),
+    url(r'^com/error',view=views.error,name='error')
+
 ]
 
 '''

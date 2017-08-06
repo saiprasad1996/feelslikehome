@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <title>Stores</title>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <h3>Registered Stores</h3>
+    </div>
+</div>
+<div class="page-body">
+    <div class="container">
+        <table>
+            <!--fields = ('name', 'description', 'image', 'address', 'country', 'latitude', 'longitude')
+        -->
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Image</td>
+                <td>Address</td>
+                <td>Country</td>
+                <td>Latitude</td>
+                <td>Longitude</td>
+                <td>Categories</td>
+            </tr>
+            </thead>
+            <tbody>
+            {{form.as_table}}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
