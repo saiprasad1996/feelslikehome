@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
+from feelslikehome import settings
 
 from api.models import *
 from .forms import StoreForm
@@ -104,3 +105,11 @@ def showStores(request):
 
 def error(request,message="Bad Request"):
     return render(request, 'api/error.html', {'error': message})
+
+def deletestore(request,id):
+    if request.method == "POST":
+        todelete = Store.objects.filter(id=id)
+        todelete.delete()
+        return redirect('stores')
+    else :
+        return error(request)

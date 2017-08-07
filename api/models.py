@@ -30,7 +30,7 @@ class Category(models.Model):
 class Store(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default="")
-    image = models.ImageField(upload_to="api/storeimages/")
+    image = models.ImageField(upload_to="images/stores/")
     address = models.TextField(default="")
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     latitude = models.CharField(max_length=30,default="")

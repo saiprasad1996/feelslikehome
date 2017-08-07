@@ -114,9 +114,17 @@ USE_L10N = True
 
 USE_TZ = True
 
+#Heroku db config
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
+PROJECT_ROOT = os.path.join(os.path.dirname(__file__),'..')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT)
+MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]

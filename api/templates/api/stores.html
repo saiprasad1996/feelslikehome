@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeletonv2.css' %}">
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
@@ -25,14 +25,15 @@
         -->
             <thead>
             <tr>
-                <td>Name</td>
-                <td>Description</td>
-                <td>Image</td>
-                <td>Address</td>
-                <td>Country</td>
-                <td>Latitude</td>
-                <td>Longitude</td>
-                <td>Categories</td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Address</th>
+                <th>Country</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Categories</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -40,12 +41,18 @@
             <tr>
                 <td>{{s.name}}</td>
                 <td>{{s.description}}</td>
-                <td><img src="{{ s.image.url }}" height="80" width="80"/></td>
+                <td><img src="{{ MEDIA_URL }}{{ s.image.url }}" height="80" width="80"/></td>
                 <td>{{s.address}}</td>
                 <td>{{s.country}}</td>
                 <td>{{s.latitude}}</td>
                 <td>{{s.longitude}}</td>
                 <td>{{s.categories}}</td>
+                <td>
+                    <form method="post" action="{% url 'deletestore' id=s.id %}">{% csrf_token %}
+                        <br/>
+                        <input type="submit" class="button button-danger" value="Delete"/>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
             </tbody>

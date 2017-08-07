@@ -107,5 +107,7 @@ api/storeimages/*.jpg
 api/storeimages/*.jpeg
 api/storeimages/*.ico
 db.sqlite3
-
-
+images/stores/*.jpg
+images/stores/*.png
+images/stores/*.jpeg
+images/stores/*.ico
