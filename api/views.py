@@ -17,6 +17,10 @@ def index(request):
 
 
 def docs(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     return HttpResponse("Docs page")
 
 
@@ -24,9 +28,12 @@ def docs(request):
 #     views.storesWithSrcandDest),
 
 def storesWithSrcandDest(request, srcountry, destcountry, storename):
-    src_store = Store.objects.filter(storename=storename, country=srcountry)
+    src_store = Store.objects.filter(storename__icontains=storename, country=srcountry)
     if src_store.exits():
         src_store_category = Store.objects.filter(category=src_store[0].category)[0]
+        stores = []
+
+
 
     else:
         return showError("Store does not exist")
@@ -35,16 +42,28 @@ def storesWithSrcandDest(request, srcountry, destcountry, storename):
 
 # url(r'^stores/category/(?P<category>[A-Za-z0-9]+)$', views.allStoresByCategory),
 def allStoresByCategory(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     pass
 
 
 # url(r'^stores/country/(?P<country>[A-Za-z0-9]+)$', views.allStoresByCountry),
 def allStoresByCountry(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     pass
 
 
 # url(r'^stores$', views.allStores),
 def allStores(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     return HttpResponse("Shows all sotres available in the database api end point")
 
 
@@ -64,21 +83,45 @@ def user(request):
 
 # url(r'^users', views.allUsers),
 def allUsers(request):
-    pass
+    try:
+        if request.method == "GET":
+            access_token = request.META["HTTP_AUTHORIZATION"]
+            if access_token == "feelslikehometoken":
+                users = User.objects.all()
+                users_selected = []
+                for u in users:
+                    uu = {"name":u["name"],"country":u["country"]}
+                    users_selected.append(uu)
+                return HttpResponse(json.dumps(users_selected))
+    except KeyError:
+        return HttpResponse(json.dumps({"status":"failed","message":"Un-authorized request"}))
+
 
 
 # url(r'^user', views.userHandle),
 def userHandle(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     pass
 
 
 # url(r'^store/(?P<id>[A-Za-z0-9]+)', views.storeDetails),
 def storeDetails(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     pass
 
 
 # url(r'store', views.storeHandle),
 def storeHandle(request):
+    try:
+        pass
+    except KeyError :
+        return HttpResponse(json.dumps())
     pass
 
 
