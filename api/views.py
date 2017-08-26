@@ -44,34 +44,60 @@ def storesWithSrcandDest(request, srcountry, destcountry, storename):
 
 
 # url(r'^stores/category/(?P<category>[A-Za-z0-9]+)$', views.allStoresByCategory),
-def allStoresByCategory(request):
+def allStoresByCategory(request, category):
     try:
-        pass
+        stores = Store.objects.all()
+        storelist = []
+        for s in stores:
+            categories = s.categories
+            categories = categories.split(',')
+            categories = [c.strip() for c in categories]
+            if any(category in s for s in categories):
+                id = s.id
+                name = s.name
+                storelist.append({"id": id, "name": name, "country": s.country.name, "address": s.address,"category":categories})
+        response = json.dumps({"stores": storelist, "status": "success"})
+        return HttpResponse(response)
     except KeyError:
-        return HttpResponse(json.dumps())
-    pass
+        return HttpResponse(json.dumps({"status": "failed", "message": "You have missed some required parameters"}))
 
 
 # url(r'^stores/country/(?P<country>[A-Za-z0-9]+)$', views.allStoresByCountry),
-def allStoresByCountry(request):
+def allStoresByCountry(request, country):
     try:
-        pass
+        country = Country.objects.filter(code=country.upper())[0]
+        stores = Store.objects.all()
+        storelist = []
+        for s in stores:
+            if s.country.code == country.code:
+                id = s.id
+                name = s.name
+                storelist.append({"id": id, "name": name, "country": s.country.name, "address": s.address})
+        response = json.dumps({"stores": storelist, "status": "success"})
+        return HttpResponse(response)
     except KeyError:
-        return HttpResponse(json.dumps())
-    pass
+        return HttpResponse(json.dumps({"status": "failed", "message": "You have missed some required parameters"}))
+    except IndexError:
+        return HttpResponse(json.dumps(
+            {"status": "failed", "message": "Sorry the country code you entered is either unavailable to wrong"}))
+
 
 
 # url(r'^stores$', views.allStores),
 def allStores(request):
     try:
-        pass
+        stores = Store.objects.all()
+        storelist = []
+        for s in stores:
+            storelist.append({"id": s.id, "name": s.name, "country": s.country.name, "address": s.address})
+        response = json.dumps({"stores": storelist, "status": "success"})
+        return HttpResponse(response)
     except KeyError:
-        return HttpResponse(json.dumps())
-    return HttpResponse("Shows all sotres available in the database api end point")
+        return HttpResponse(json.dumps({"status": "failed", "message": "You have missed some required parameters"}))
 
 
 # url(r'^user/(?P<id>[A-Za-z0-9]+)$', views.user),
-def user(request,id):
+def user(request, id):
     try:
         if request.method == "GET":
             user_id = request.GET["userid"]
@@ -81,8 +107,7 @@ def user(request,id):
             body = json.loads(body)
             user = User.objects.filter(email=body["email"])
             if user.exists():
-                user.update(phone = body["phone"],profile = body["profile"])
-
+                user.update(phone=body["phone"], profile=body["profile"])
 
             user.save()
 
@@ -90,15 +115,15 @@ def user(request,id):
             body = request.body.decode('utf-8')
             body = json.loads(body)
             user = User(name=body["name"], email=body["email"], profile=body["profile"], accesstoken=body["atoken"],
-                 country=body["country"])
+                        country=body["country"])
             user.save(force_insert=True)
-            return HttpResponse(json.dumps({"status":"success","message":"User registered successfully"}))
-        else :
-            return HttpResponse(json.dumps({"status":'failed','message':'Bad request'}))
+            return HttpResponse(json.dumps({"status": "success", "message": "User registered successfully"}))
+        else:
+            return HttpResponse(json.dumps({"status": 'failed', 'message': 'Bad request'}))
     except IntegrityError:
-        return HttpResponse(json.dumps({"status":"failed","message":"User with same email already exists"}))
+        return HttpResponse(json.dumps({"status": "failed", "message": "User with same email already exists"}))
     except KeyError:
-        return HttpResponse(json.dumps({'status':"failed","message":"You probably missed out some parameters"}))
+        return HttpResponse(json.dumps({'status': "failed", "message": "You probably missed out some parameters"}))
 
 
 # url(r'^users', views.allUsers),
@@ -114,7 +139,7 @@ def allUsers(request):
                     users_selected.append(uu)
                 return HttpResponse(json.dumps(users_selected))
             else:
-                return HttpResponse(json.dumps({'status':'failed','message':'Un-authorized request'}))
+                return HttpResponse(json.dumps({'status': 'failed', 'message': 'Un-authorized request'}))
     except KeyError:
         return HttpResponse(json.dumps({"status": "failed", "message": "Un-authorized request"}))
 
