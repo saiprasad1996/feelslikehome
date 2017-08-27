@@ -111,3 +111,7 @@ images/stores/*.jpg
 images/stores/*.png
 images/stores/*.jpeg
 images/stores/*.ico
+/uwsgi_params
+/feelslikehome_nginx.conf
+/staticfiles/
+/media/

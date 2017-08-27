@@ -19,7 +19,6 @@ urlpatterns = [
     url(r'^api/users$',views.allUsers),
     url(r'^api/user$',views.userHandle),
     url(r'^api/store/(?P<id>[A-Za-z0-9]+)$',views.storeDetails),
-    url(r'^api/store$',views.storeHandle),
     #Developers urls
     url(r'^dev/initcountries$',choices.initCountries),
     url(r'^dev/countrycount$',choices.getCount),

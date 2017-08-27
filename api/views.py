@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.db.utils import IntegrityError
+
+from api.utils.exception import NoCategoryException
 from feelslikehome import settings
 
 from api.models import *
@@ -12,7 +14,15 @@ BASE_URL = 'https://feelslikehome.herokuapp.com'
 
 
 def showError(message):
-    return HttpResponse(json.dumps({"status": "failed", "message": message}))
+    response = HttpResponse(json.dumps({"status": "failed", "message": message}))
+    response['Content-Type'] = 'application/json'
+    return response
+
+
+def json_response(obj):
+    response = HttpResponse(json.dumps(obj))
+    response['Content-Type'] = 'application/json'
+    return response
 
 
 def index(request):
@@ -44,6 +54,7 @@ def storesWithSrcandDest(request, srcountry, destcountry, storename):
 
 
 # url(r'^stores/category/(?P<category>[A-Za-z0-9]+)$', views.allStoresByCategory),
+
 def allStoresByCategory(request, category):
     try:
         stores = Store.objects.all()
@@ -55,11 +66,15 @@ def allStoresByCategory(request, category):
             if any(category in s for s in categories):
                 id = s.id
                 name = s.name
-                storelist.append({"id": id, "name": name, "country": s.country.name, "address": s.address,"category":categories})
-        response = json.dumps({"stores": storelist, "status": "success"})
-        return HttpResponse(response)
+                storelist.append(
+                    {"id": id, "name": name, "country": s.country.name, "address": s.address, "categories": categories})
+            if len(storelist) == 0:
+                raise NoCategoryException
+        return json_response({"stores": storelist, "status": "success"})
     except KeyError:
-        return HttpResponse(json.dumps({"status": "failed", "message": "You have missed some required parameters"}))
+        return showError("You have missed some required parameters")
+    except NoCategoryException:
+        return showError("Your query does not match any category")
 
 
 # url(r'^stores/country/(?P<country>[A-Za-z0-9]+)$', views.allStoresByCountry),
@@ -73,14 +88,11 @@ def allStoresByCountry(request, country):
                 id = s.id
                 name = s.name
                 storelist.append({"id": id, "name": name, "country": s.country.name, "address": s.address})
-        response = json.dumps({"stores": storelist, "status": "success"})
-        return HttpResponse(response)
+        return json_response({"stores": storelist, "status": "success"})
     except KeyError:
-        return HttpResponse(json.dumps({"status": "failed", "message": "You have missed some required parameters"}))
+        return showError("You have missed some required parameters")
     except IndexError:
-        return HttpResponse(json.dumps(
-            {"status": "failed", "message": "Sorry the country code you entered is either unavailable to wrong"}))
-
+        return showError("Sorry the country code you entered is either unavailable to wrong")
 
 
 # url(r'^stores$', views.allStores),
@@ -119,11 +131,11 @@ def user(request, id):
             user.save(force_insert=True)
             return HttpResponse(json.dumps({"status": "success", "message": "User registered successfully"}))
         else:
-            return HttpResponse(json.dumps({"status": 'failed', 'message': 'Bad request'}))
+            return showError('Bad request')
     except IntegrityError:
-        return HttpResponse(json.dumps({"status": "failed", "message": "User with same email already exists"}))
+        return showError("User with same email already exists")
     except KeyError:
-        return HttpResponse(json.dumps({'status': "failed", "message": "You probably missed out some parameters"}))
+        return showError("You probably missed out some parameters")
 
 
 # url(r'^users', views.allUsers),
@@ -139,9 +151,9 @@ def allUsers(request):
                     users_selected.append(uu)
                 return HttpResponse(json.dumps(users_selected))
             else:
-                return HttpResponse(json.dumps({'status': 'failed', 'message': 'Un-authorized request'}))
+                return showError('Un-authorized request')
     except KeyError:
-        return HttpResponse(json.dumps({"status": "failed", "message": "Un-authorized request"}))
+        return showError("Un-authorized request")
 
 
 # url(r'^user', views.userHandle),
@@ -149,7 +161,7 @@ def userHandle(request):
     try:
         pass
     except KeyError:
-        return HttpResponse(json.dumps())
+        return showError('Un-authorized request')
     pass
 
 
@@ -175,15 +187,6 @@ def storeDetails(request, id):
 
     except KeyError:
         return HttpResponse(json.dumps({"status": 'failed', "message": "Dict. key Error"}))
-    pass
-
-
-# url(r'store', views.storeHandle),
-def storeHandle(request):
-    try:
-        pass
-    except KeyError:
-        return HttpResponse(json.dumps())
     pass
 
 
