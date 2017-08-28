@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.db.utils import IntegrityError
 
-from api.utils.exception import NoCategoryException
+from api.utils.exception import UnAvailableException
 from feelslikehome import settings
 
 from api.models import *
@@ -20,6 +20,11 @@ def showError(message):
 
 
 def json_response(obj):
+    '''
+
+    :param obj: Dictionary
+    :return:    HttpResponse
+    '''
     response = HttpResponse(json.dumps(obj))
     response['Content-Type'] = 'application/json'
     return response
@@ -31,26 +36,56 @@ def index(request):
 
 def docs(request):
     try:
-        pass
+        return showError('Docs Not yet defined')
     except KeyError:
-        return HttpResponse(json.dumps())
-    return HttpResponse("Docs page")
+        return showError('Failed to open docs')
 
 
 # url(r'^stores/(?P<srccountry>[A-Za-z0-9]+)/(?P<destcountry>[A-Za-z0-9]+)/(?P<storename>[A-Za-z0-9]+)$',
 #     views.storesWithSrcandDest),
 
 def storesWithSrcandDest(request, srcountry, destcountry, storename):
-    src_store = Store.objects.filter(storename__icontains=storename, country=srcountry)
-    if src_store.exits():
-        src_store_category = Store.objects.filter(category=src_store[0].category)[0]
-        stores = []
-
-
-
+    # TODO 1 -Get the categories of the store with source country requested
+    src_store = Store.objects.filter(name__icontains=storename, country=srcountry)
+    if src_store.exists():
+        categories = src_store[0].categories.split(',')
+        categories = [c.strip() for c in categories]
+        stores_list = []
+        # TODO 2 -Get the stores available in the destination country
+        stores_dest = Store.objects.filter(country=destcountry)
+        if not stores_dest.exists():
+            return showError('No stores are available in the given destination country')
+        for store in stores_dest:
+            cat = store.categories.split(',')
+            cat = [c.strip() for c in cat]
+            for c in categories:
+                if c in cat:
+                    stores_list.append(
+                        {"id": store.id, "name": store.name, "country": store.country.name, "address": store.address})
+                    break
+        return json_response(stores_list)
     else:
         return showError("Store does not exist")
     pass
+
+
+#    url(r'^api/stores/name/(?P<name>[A-Za-z0-9]+)$',views.storesByName),
+def storesByName(request, name):
+    try:
+        if request.method == 'GET':
+            stores = Store.objects.filter(name__icontains=name)
+            if not stores.exists():
+                raise UnAvailableException
+            storelist = []
+            for s in stores:
+                storelist.append(
+                    {"id": s.id, "name": s.name, "country": s.country.name, "address": s.address})
+            response = {"status": "success", "stores": storelist}
+            return json_response(response)
+        else:
+            return showError("Bad request")
+    except UnAvailableException:
+        return showError('No store available with the name')
 
 
 # url(r'^stores/category/(?P<category>[A-Za-z0-9]+)$', views.allStoresByCategory),
@@ -69,11 +104,11 @@ def allStoresByCategory(request, category):
                 storelist.append(
                     {"id": id, "name": name, "country": s.country.name, "address": s.address, "categories": categories})
             if len(storelist) == 0:
-                raise NoCategoryException
+                raise UnAvailableException
         return json_response({"stores": storelist, "status": "success"})
     except KeyError:
         return showError("You have missed some required parameters")
-    except NoCategoryException:
+    except UnAvailableException:
         return showError("Your query does not match any category")
 
 

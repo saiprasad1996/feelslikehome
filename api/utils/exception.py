@@ -1,2 +1,2 @@
-class NoCategoryException(BaseException):
+class UnAvailableException(BaseException):
     pass

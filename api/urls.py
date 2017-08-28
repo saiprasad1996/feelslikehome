@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^api/stores/category/(?P<category>[A-Za-z0-9]+)$',views.allStoresByCategory),
     url(r'^api/stores/country/(?P<country>[A-Za-z0-9]+)$',views.allStoresByCountry),
     url(r'^api/stores$',views.allStores),
+    url(r'^api/stores/name/(?P<name>[A-Za-z0-9]+)$',views.storesByName),
     url(r'^api/user/(?P<id>[A-Za-z0-9]+)$',views.user),
     url(r'^api/users$',views.allUsers),
     url(r'^api/user$',views.userHandle),
