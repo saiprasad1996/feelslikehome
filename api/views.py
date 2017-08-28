@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 from django.db.utils import IntegrityError
 
@@ -7,7 +7,7 @@ from api.utils.exception import UnAvailableException
 from feelslikehome import settings
 
 from api.models import *
-from .forms import StoreForm
+from .forms import StoreForm, LoginForm
 import json
 
 BASE_URL = 'https://feelslikehome.herokuapp.com'
@@ -226,16 +226,39 @@ def storeDetails(request, id):
 
 
 def registerStore(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.session.has_key('username'):
+        username = request.session["username"]
         form = StoreForm(request.POST, files=request.FILES)
         if form.is_valid():
             formdata = form.save(commit=False)
             formdata.image = request.FILES['image']
             form.save()
             return redirect('registerstore')
-    else:
+        return render(request, 'api/registerstore.html', {'form': form, 'username': username})
+    elif request.method == "GET" and request.session.has_key('username'):
         form = StoreForm()
-    return render(request, 'api/registerstore.html', {'form': form})
+        username = request.session["username"]
+        return render(request, 'api/registerstore.html', {'form': form, 'username': username})
+    else:
+        return HttpResponseRedirect('login')
+    return render(request, 'api/error.html', {'error': "Please login to continue"})
+
+
+def login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['email']
+            password = form.cleaned_data['accesstoken']
+            if user == "saiprasad@epsumlabs.com" and password == "password":
+                request.session['username'] = user
+                return HttpResponseRedirect('registerstore')
+            else:
+                form = LoginForm()
+    else:
+        form = LoginForm()
+
+    return render(request, 'api/login.html', {'form': form})
 
 
 def showStores(request):

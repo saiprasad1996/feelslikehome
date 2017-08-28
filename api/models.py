@@ -13,7 +13,7 @@ class Country(models.Model):
 
 class User(models.Model):
     name = models.CharField(max_length=60)
-    email = models.CharField(max_length=100,primary_key=True)
+    email = models.EmailField(max_length=100,primary_key=True)
     profile = models.TextField(default='')
     accesstoken = models.TextField(default='')
     country = models.ForeignKey(Country, on_delete=models.CASCADE)

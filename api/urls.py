@@ -9,7 +9,7 @@ from . import views
 
 urlpatterns = [
     
-    url(r'^$',views.index),
+    url(r'^$',views.index,name="index"),
     url(r'^api/docs',views.docs),
     url(r'^api/stores/(?P<srccountry>[A-Za-z0-9]+)/(?P<destcountry>[A-Za-z0-9]+)/(?P<storename>[A-Za-z0-9]+)$',views.storesWithSrcandDest),
     url(r'^api/stores/category/(?P<category>[A-Za-z0-9]+)$',views.allStoresByCategory),
@@ -24,10 +24,11 @@ urlpatterns = [
     url(r'^dev/initcountries$',choices.initCountries),
     url(r'^dev/countrycount$',choices.getCount),
     #community urls
-    url(r'^com/registerstore$',view=views.registerStore,name="registerstore"),
-    url(r'^com/regstores$',view=views.showStores,name='stores'),
-    url(r'^com/error$',view=views.error,name='error'),
-    url(r'^com/deletestore/(?P<id>[A-Za-z0-9]+)$',view=views.deletestore,name='deletestore'),
+    url(r'^user/login',view=views.login,name='login'),
+    url(r'^user/registerstore$',view=views.registerStore,name="registerstore"),
+    url(r'^user/regstores$',view=views.showStores,name='stores'),
+    url(r'^user/error$',view=views.error,name='error'),
+    url(r'^user/deletestore/(?P<id>[A-Za-z0-9]+)$',view=views.deletestore,name='deletestore'),
 
 ]
 urlpatterns += staticfiles_urlpatterns()

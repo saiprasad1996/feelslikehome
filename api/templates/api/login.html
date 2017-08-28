@@ -3,34 +3,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css'%}">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
     <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
-    <title>Error</title>
-    <style type="text/css">
-        .container-custom{
-            color:red;
-            display:flex;
-            background-color:#FFFFCC;
+    <title>FLH | Login</title>
+</head>
+<style type="text/css">
+        body{
+            background-color:#F9F9F9;
+        }
+        .form{
+            margin-top:150px;
+            border-radius:10px;
+            border:1px solid #D8DEE2;
+            background-color:#fff;
+            padding:30px 0 30px 0;
+
 
         }
-        .body{
-            flex-wrap:wrap;
-            flex-direction:row;
+        .form-container{
+            text-align:center;
             align-items:center;
         }
 
 
 
-    </style>
-</head>
+
+</style>
 <body>
-<div class="container-custom">
-    <div class="container">
-        <h2 style="font-family:'Raleway';">{{error}}</h2>
+<div class="container">
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data" class="form">{% csrf_token %}
+
+            <div class="row">
+                <div class="heading">
+                    <p style="font-size:18pt">Login to Feels Like Home Super User Panel</p>
+                </div>
+                <hr/>
+                <div>
+                    {{form.email.label_tag}}
+                    {{form.email}}
+                </div>
+                <div>
+                    <label for="id_accesstoken">Password : </label>
+                    {{form.accesstoken}}
+                </div>
+            </div>
+            <br/>
+            <input type="submit" value="Login" class="button button-primary"/>
+
+        </form>
     </div>
 </div>
 </body>
@@ -57,8 +83,6 @@
             <hr/>
         </div>
     </div>
-    <div class="container"><a style="text-decoration:none;" href="{% url 'index' %}">Home</a>&nbsp;&nbsp;
-        <a style="text-decoration:none;" href="{% url 'login' %}">Login</a>
-    </div>
+    <div class="container"><a  style="text-decoration:none;" href="{% url 'index' %}">Home</a></div>
 </footer>
 </html>
