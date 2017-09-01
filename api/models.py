@@ -5,7 +5,7 @@ from django.db import models
 
 class Country(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=3,primary_key=True)
+    code = models.CharField(max_length=3, primary_key=True)
 
     def __str__(self):
         return self.name
@@ -13,7 +13,7 @@ class Country(models.Model):
 
 class User(models.Model):
     name = models.CharField(max_length=60)
-    email = models.EmailField(max_length=100,primary_key=True)
+    email = models.EmailField(max_length=100, primary_key=True)
     profile = models.TextField(default='')
     accesstoken = models.TextField(default='')
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -28,19 +28,19 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Store(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default="")
     image = models.ImageField(upload_to="images/stores/")
     address = models.TextField(default="")
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    latitude = models.CharField(max_length=30,default="")
-    longitude = models.CharField(max_length=30,default="")
+    latitude = models.CharField(max_length=30, default="")
+    longitude = models.CharField(max_length=30, default="")
     categories = models.TextField(default="")
 
     def __str__(self):
         return self.name
-
 
 
 class Reviews(models.Model):
@@ -51,3 +51,9 @@ class Reviews(models.Model):
 
     def __str__(self):
         return self.review
+
+
+class AdminUser(models.Model):
+    name = models.TextField()
+    email = models.TextField(primary_key=True)
+    password = models.TextField()

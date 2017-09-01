@@ -5,9 +5,9 @@ from django.db.utils import IntegrityError
 
 from api.utils.exception import UnAvailableException
 from feelslikehome import settings
-
+from .backend.security import hashup
 from api.models import *
-from .forms import StoreForm, LoginForm
+from .forms import StoreForm, LoginForm, ProfileForm
 import json
 
 BASE_URL = 'https://feelslikehome.herokuapp.com'
@@ -191,15 +191,6 @@ def allUsers(request):
         return showError("Un-authorized request")
 
 
-# url(r'^user', views.userHandle),
-def userHandle(request):
-    try:
-        pass
-    except KeyError:
-        return showError('Un-authorized request')
-    pass
-
-
 # url(r'^store/(?P<id>[A-Za-z0-9]+)', views.storeDetails),
 def storeDetails(request, id):
     try:
@@ -222,7 +213,6 @@ def storeDetails(request, id):
 
     except KeyError:
         return HttpResponse(json.dumps({"status": 'failed', "message": "Dict. key Error"}))
-    pass
 
 
 def registerStore(request):
@@ -244,12 +234,16 @@ def registerStore(request):
     return render(request, 'api/error.html', {'error': "Please login to continue"})
 
 
+def dashboard(request):
+    return render(request, 'api/dashboard.html', {"username": "Sai Prasad"})
+
+
 def login(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             user = form.cleaned_data['email']
-            password = form.cleaned_data['accesstoken']
+            password = form.cleaned_data['password']
             if user == "saiprasad@epsumlabs.com" and password == "password":
                 request.session['username'] = user
                 return HttpResponseRedirect('registerstore')
@@ -280,3 +274,28 @@ def deletestore(request, id):
         return redirect('stores')
     else:
         return error(request)
+
+
+def profile(request):
+    if request.method == "GET" and request.session.has_key('username'):
+        username = request.session["username"]
+        profile = AdminUser.objects.filter(email=username)
+        if profile.exists():
+            profile = profile[0]
+            return render(request, 'api/profile.html', {"name": profile.name, "email": profile.email})
+        else:
+            return redirect('login')
+    elif request.method == "POST" and request.session.has_key('username'):
+        username = request.session['username']
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            update = User.objects.filter(email=user).update(hashup(password))
+            if update == 1:
+                return render(request, 'api/profile.html', {'message': 'Profile updated successfully'})
+            else:
+                return render(request, 'api/profile.html', {'message': "Oops! Something went wrong"})
+    else:
+        return redirect('login')

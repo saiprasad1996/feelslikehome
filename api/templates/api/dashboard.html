@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/skeletonv2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+
+    <title>FLH | Super User Panel</title>
+    <style>
+    h4{
+        font-family: 'Acme', sans-serif;
+    }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    float:right;
+}
+
+li {
+
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    color: #111;
+}
+/*
+Pad
+----------------------------------------------------------------
+*/
+.pad{
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+
+
+    </style>
+</head>
+<body>
+<nav class="container">
+    <ul>
+        <li><a><h4>Welcome &nbsp;&nbsp; {{ username }}!</h4></a></li>
+        <li><a href="">
+            <i class="ion-power" style="color:red;font-size:25px"></i>
+        </a></li>
+    </ul>
+</nav>
+<hr>
+<div class="container pad">
+    <div class="row">
+        <div class="four columns card">
+            <i class="ion-clipboard" style="font-size:80px;"></i>
+            <h4><a href="{% url 'registerstore'%}">Register a Store</a></h4>
+        </div>
+        <div class="four columns card">
+            <i class="ion-search" style="font-size:80px;"></i>
+            <h4><a href="{% url 'stores'%}">Show all stores</a></h4>
+        </div>
+        <div class="four columns card">
+            <i class="ion-android-create" style="font-size:80px;"></i>
+            <br>
+            <h4>Update Profile</h4>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
