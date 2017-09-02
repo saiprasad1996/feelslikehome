@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeletonv2.css' %}">
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
@@ -12,10 +12,23 @@
     <title>Register a store</title>
 </head>
 <body>
+<nav>
+    <ul class="topnav">
+        <div class="container">
+            <li><a><bold>Howdy </bold>{{ username }} !</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="active" href="{% url 'stores' %}">Stores</a></li>
+            <li><a href="{% url 'registerstore' %}">Register Store</a></li>
+            <li class="right"><a href="{% url 'logout' %}">Logout</a></li>
+        </div>
+    </ul>
+</nav>
+
 <div class="header">
     <div class="container">
         <h3>Register a Store</h3>
-        <p>{{ username }}</p>
+
     </div>
 </div>
 <div class="page-body">

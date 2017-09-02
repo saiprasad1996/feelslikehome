@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +9,61 @@
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 
     <title>FLH | Profile</title>
+
 </head>
 <body>
-<form>
-    {{form.as_p}}
-</form>
+<nav>
+
+    <ul class="topnav">
+        <div class="container">
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a class="active" href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'stores' %}">Stores</a></li>
+            <li><a href="{% url 'registerstore' %}">Register Store</a></li>
+            <li class="right"><a href="{% url 'logout' %}">Logout</a></li>
+        </div>
+    </ul>
+</nav>
+<br/>
+<div class="header">
+    <div class="container">
+        <h3>Profile Update</h3>
+        <p>Howdy {{ name }}!</p>
+    </div>
+</div>
+<div class="page-body">
+    <div class="container">
+        <form method="post" action="{% url 'profile' %}" class="form" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row">
+                <div class="six columns">
+                    <label for="id_name">Name:</label>
+                    <input type="text" name="name" value="{{ name }}" disabled class="u-full-width"
+                           placeholder="Display Name" required id="id_name"/>
+                </div>
+                <div class="six columns">
+                    <label for="id_email">Email:</label>
+                    <input type="text" name="email" value="{{ email }}" placeholder="Email"
+                           required class="u-full-width" id="id_email"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns u-full-width">
+                    <label for="id_password">New Password:</label>
+                    <input type="password" name="password"
+                           placeholder="New Password" required class="u-full-width"
+                           id="id_password"/>
+
+
+                </div>
+            </div>
+
+            <br/>
+            <input type="submit" value="Submit" class="button button-primary"/>
+        </form>
+        {% if message is not None or "" %}
+        <LABEL>{{message}}</LABEL>
+        {% endif %}
+    </div>
+</div>
 </body>
 </html>

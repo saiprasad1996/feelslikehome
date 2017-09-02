@@ -57,3 +57,6 @@ class AdminUser(models.Model):
     name = models.TextField()
     email = models.TextField(primary_key=True)
     password = models.TextField()
+
+    def __str__(self):
+        return self.name

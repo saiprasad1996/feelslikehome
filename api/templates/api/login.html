@@ -30,15 +30,11 @@
             align-items:center;
         }
 
-
-
-
-
 </style>
 <body>
 <div class="container">
     <div class="form-container">
-        <form method="post" enctype="multipart/form-data" class="form">{% csrf_token %}
+        <form method="post" enctype="multipart/form-data" action="{% url 'login' %}" class="form">{% csrf_token %}
 
             <div class="row">
                 <div class="heading">
@@ -46,12 +42,12 @@
                 </div>
                 <hr/>
                 <div>
-                    {{form.email.label_tag}}
-                    {{form.email}}
+                    <label for="id_email">Email:</label>
+                    <input type="email" name="email" autocomplete="on" required style="width:300px;" placeholder="xyz@email.com" id="id_email" />
                 </div>
                 <div>
-                    <label for="id_accesstoken">Password : </label>
-                    {{form.password}}
+                    <label for="id_password">Password : </label>
+                    <input type="password" name="password" required style="width:300px;" placeholder="Password" id="id_password" />
                 </div>
             </div>
             <br/>

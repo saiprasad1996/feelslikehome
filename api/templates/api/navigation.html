@@ -1,0 +1,12 @@
+{%block navigation%}
+<nav>
+    <ul class="topnav">
+        <div class="container">
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a class="active" href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'stores' %}">Stores</a></li>
+            <li class="right"><a href="#about">Logout</a></li>
+        </div>
+    </ul>
+</nav>
+{%endblock%}

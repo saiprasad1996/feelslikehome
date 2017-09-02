@@ -13,6 +13,18 @@
     <title>Stores</title>
 </head>
 <body>
+<nav>
+
+    <ul class="topnav">
+        <div class="container">
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="active" href="{% url 'stores' %}">Stores</a></li>
+            <li><a href="{% url 'registerstore' %}">Register Store</a></li>
+            <li class="right"><a href="{% url 'logout' %}">Logout</a></li>
+        </div>
+    </ul>
+</nav>
 <div class="header">
     <div class="container">
         <h3>Registered Stores</h3>

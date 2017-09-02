@@ -25,11 +25,13 @@ urlpatterns = [
     # community urls
     url(r'^user/dashboard', view=views.dashboard, name='dashboard'),
     url(r'^user/login', view=views.login, name='login'),
+    url(r'^user/logout', view=views.logout, name='logout'),
     url(r'^user/registerstore$', view=views.registerStore, name="registerstore"),
     url(r'^user/regstores$', view=views.showStores, name='stores'),
     url(r'^user/error$', view=views.error, name='error'),
     url(r'^user/profile', view=views.profile, name="profile"),
     url(r'^user/deletestore/(?P<id>[A-Za-z0-9]+)$', view=views.deletestore, name='deletestore'),
+
 
 ]
 urlpatterns += staticfiles_urlpatterns()

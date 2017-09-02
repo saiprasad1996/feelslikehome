@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.datastructures import MultiValueDictKeyError
-from django.db.utils import IntegrityError
-
-from api.utils.exception import UnAvailableException
-from feelslikehome import settings
-from .backend.security import hashup
-from api.models import *
-from .forms import StoreForm, LoginForm, ProfileForm
 import json
+
+from django.db.utils import IntegrityError
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+
+from api.models import *
+from api.utils.exception import UnAvailableException
+from .backend.security import hashup
+from .forms import StoreForm, LoginForm
 
 BASE_URL = 'https://feelslikehome.herokuapp.com'
 
@@ -239,16 +238,18 @@ def dashboard(request):
 
 
 def login(request):
+    if request.session.has_key('username'):
+        return HttpResponseRedirect('dashboard')
     if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            if user == "saiprasad@epsumlabs.com" and password == "password":
-                request.session['username'] = user
-                return HttpResponseRedirect('registerstore')
-            else:
-                form = LoginForm()
+
+        user = request.POST['email']
+        password = request.POST['password']
+        admin = AdminUser.objects.filter(email=user, password=hashup(password))
+        if admin.exists():
+            request.session['username'] = user
+            return HttpResponseRedirect('dashboard')
+        else:
+            form = LoginForm()
     else:
         form = LoginForm()
 
@@ -275,27 +276,27 @@ def deletestore(request, id):
     else:
         return error(request)
 
-
 def profile(request):
-    if request.method == "GET" and request.session.has_key('username'):
-        username = request.session["username"]
-        profile = AdminUser.objects.filter(email=username)
-        if profile.exists():
-            profile = profile[0]
-            return render(request, 'api/profile.html', {"name": profile.name, "email": profile.email})
-        else:
-            return redirect('login')
-    elif request.method == "POST" and request.session.has_key('username'):
+    if request.method == "POST" and request.session.has_key('username'):
         username = request.session['username']
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            user = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-
-            update = User.objects.filter(email=user).update(hashup(password))
-            if update == 1:
-                return render(request, 'api/profile.html', {'message': 'Profile updated successfully'})
-            else:
-                return render(request, 'api/profile.html', {'message': "Oops! Something went wrong"})
+        user = request.POST["email"]
+        password = request.POST["password"]
+        update = AdminUser.objects.filter(email=user).update(password=hashup(password))
+        if update == 1:
+            return redirect('profile')
+        else:
+            return render(request, 'api/profile.html', {'message': "Oops! Something went wrong"})
+    elif request.method == "GET" and request.session.has_key('username'):
+        username = request.session['username']
+        admin = AdminUser.objects.filter(email=username)[0]
+        return render(request, 'api/profile.html', {"name": admin.name, "email": admin.email})
     else:
         return redirect('login')
+
+
+def logout(request):
+    try:
+        del request.session['username']
+    except:
+        pass
+    return redirect('login')
