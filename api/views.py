@@ -3,9 +3,9 @@ import json
 from django.db.utils import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from api.models import *
-from django.views.decorators.csrf import csrf_exempt
 from api.utils.exception import UnAvailableException
 from .backend.security import hashup
 from .forms import StoreForm, LoginForm
@@ -162,7 +162,9 @@ def user(request, id):
         elif request.method == "PUT" and id == 'new':
             body = request.body.decode('utf-8')
             body = json.loads(body)
-            user = User(name=body["name"], email=body["email"], profile=body["profile"], accesstoken=body["atoken"])
+            country = Country.objects.filter(code="n/a")[0]
+            user = User(name=body["name"], email=body["email"], profile=body["profile"], accesstoken=body["atoken"],
+                        country=country)
             user.save(force_insert=True)
             return HttpResponse(json.dumps({"status": "success", "message": "User registered successfully"}))
         else:
@@ -276,6 +278,7 @@ def deletestore(request, id):
         return redirect('stores')
     else:
         return error(request)
+
 
 def profile(request):
     if request.method == "POST" and request.session.has_key('username'):
