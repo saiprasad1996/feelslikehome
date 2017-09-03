@@ -162,8 +162,7 @@ def user(request, id):
         elif request.method == "PUT" and id == 'new':
             body = request.body.decode('utf-8')
             body = json.loads(body)
-            user = User(name=body["name"], email=body["email"], profile=body["profile"], accesstoken=body["atoken"],
-                        country=body["country"])
+            user = User(name=body["name"], email=body["email"], profile=body["profile"], accesstoken=body["atoken"])
             user.save(force_insert=True)
             return HttpResponse(json.dumps({"status": "success", "message": "User registered successfully"}))
         else:
