@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from api.models import *
+from django.views.decorators.csrf import csrf_exempt
 from api.utils.exception import UnAvailableException
 from .backend.security import hashup
 from .forms import StoreForm, LoginForm
@@ -143,6 +144,7 @@ def allStores(request):
 
 
 # url(r'^user/(?P<id>[A-Za-z0-9]+)$', views.user),
+@csrf_exempt
 def user(request, id):
     try:
         if request.method == "GET":
